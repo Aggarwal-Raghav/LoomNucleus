@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+        https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd" version="3.1">
+
+    <persistence-unit name="FlashSaleUnit">
+        <!-- We list the class we want DataNucleus to manage -->
+        <class>com.github.raghav.Inventory</class>
+        <class>com.github.raghav.Order</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        
+        <properties>
+            <!-- JDO Standard Properties inside persistence.xml -->
+            <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3307/flashSale"/>
+            <property name="javax.jdo.option.ConnectionUserName" value="root"/>
+            <property name="javax.jdo.option.ConnectionPassword" value="qwerty@123"/>
+            <property name="javax.jdo.option.ConnectionDriverName" value="com.mysql.cj.jdbc.Driver"/>
+            
+            <!-- HikariCP Connection Pooling -->
+            <property name="datanucleus.connectionPool.plugin" value="HikariCP"/>
+            <property name="datanucleus.connectionPool.maxPoolSize" value="10"/>
+            
+            <!-- DataNucleus specific properties -->
+            <property name="datanucleus.schema.autoCreateAll" value="true"/>
+            <property name="datanucleus.schema.autoCreateTables" value="true"/>
+            <property name="datanucleus.schema.autoCreateColumns" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

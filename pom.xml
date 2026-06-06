@@ -68,9 +68,12 @@ limitations under the License.
   <!-- To update properties versions to latest versions ignoring alpha, beta, milestone and release candidates use: -->
   <!-- mvn versions:update-properties -Dmaven.version.ignore='(?i).*-(alpha|beta|m|rc)([-. ]?\d+)?' -DgenerateBackupPoms=false -->
   <properties>
+    <datanucleus-api-jdo.version>6.0.5</datanucleus-api-jdo.version>
+    <datanucleus.version>6.0.11</datanucleus.version>
     <google.java.format.version>1.35.0</google.java.format.version>
     <hikariCP.version>7.0.2</hikariCP.version>
     <javaVersion>25</javaVersion>
+    <jdo.version>3.2.1</jdo.version>
     <junit.version>6.1.0</junit.version>
     <log4j2.version>2.26.0</log4j2.version>
     <mysql.version>9.7.0</mysql.version>
@@ -127,10 +130,55 @@ limitations under the License.
       <artifactId>log4j-slf4j2-impl</artifactId>
       <version>${log4j2.version}</version>
     </dependency>
+
+    <!-- JDO API Standard -->
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo-api</artifactId>
+      <version>${jdo.version}</version>
+    </dependency>
+
+    <!-- DataNucleus Core Engine -->
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-core</artifactId>
+      <version>${datanucleus.version}</version>
+    </dependency>
+
+    <!-- DataNucleus JDO Implementation -->
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-api-jdo</artifactId>
+      <version>${datanucleus-api-jdo.version}</version>
+    </dependency>
+
+    <!-- DataNucleus Relational Database Support (required for MySQL) -->
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-rdbms</artifactId>
+      <version>${datanucleus.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-maven-plugin</artifactId>
+        <version>6.0.1</version>
+        <configuration>
+          <api>JDO</api>
+          <verbose>true</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
