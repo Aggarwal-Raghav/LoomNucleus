@@ -27,7 +27,7 @@ public class DBConnectionManager {
 
   public static Connection getConnection() {
     return DBTimer.record(
-        "MySql Connection Creation",
+        "Raw JDBC Connection Creation",
         () -> {
           try {
             return DriverManager.getConnection(URL, USER, PASSWORD);

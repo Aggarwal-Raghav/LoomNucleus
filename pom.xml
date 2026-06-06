@@ -69,6 +69,7 @@ limitations under the License.
   <!-- mvn versions:update-properties -Dmaven.version.ignore='(?i).*-(alpha|beta|m|rc)([-. ]?\d+)?' -DgenerateBackupPoms=false -->
   <properties>
     <google.java.format.version>1.35.0</google.java.format.version>
+    <hikariCP.version>7.0.2</hikariCP.version>
     <javaVersion>25</javaVersion>
     <junit.version>6.1.0</junit.version>
     <log4j2.version>2.26.0</log4j2.version>
@@ -95,6 +96,12 @@ limitations under the License.
       <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>${hikariCP.version}</version>
     </dependency>
 
     <dependency>

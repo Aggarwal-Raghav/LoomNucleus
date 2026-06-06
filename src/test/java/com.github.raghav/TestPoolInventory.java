@@ -15,7 +15,8 @@
  */
 package com.github.raghav;
 
-import static com.github.raghav.DBConnectionManager.getConnection;
+// Import the Hikari Connection Manager instead of the raw one
+import static com.github.raghav.HikariDBConnectionManager.getConnection;
 import static com.github.raghav.Timer.DBTimer.record;
 
 import java.sql.Connection;
@@ -27,11 +28,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class TestNoPoolInventory {
+public class TestPoolInventory {
   private static Connection conn;
 
   @BeforeAll
   public static void setup() throws SQLException {
+    // This will trigger the static block in HikariDBConnectionManager
     conn = getConnection();
   }
 
@@ -52,7 +54,6 @@ public class TestNoPoolInventory {
           () -> {
             try {
               stmt.execute(createTbl);
-              // Clean the table to prevent duplicate primary key errors on repeated runs
               return stmt.execute("TRUNCATE TABLE inventory");
             } catch (SQLException e) {
               throw new RuntimeException(e);
@@ -84,7 +85,7 @@ public class TestNoPoolInventory {
           "Select From Inventory",
           () -> {
             try (ResultSet rs = pstmt.executeQuery()) {
-              System.out.println("\n--- Inventory List (No Pool) ---");
+              System.out.println("\n--- Inventory List (HikariCP) ---");
               while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
