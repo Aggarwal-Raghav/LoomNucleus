@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.raghav.Timer;
+package com.github.raghav.util;
 
 import java.util.function.Supplier;
 import org.slf4j.Logger;

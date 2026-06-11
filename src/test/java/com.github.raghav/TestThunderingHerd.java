@@ -15,8 +15,4 @@
  */
 package com.github.raghav;
 
-public class FlashSale {
-  static void main() {
-    System.out.println("Hello and welcome!");
-  }
-}
+public class TestThunderingHerd {}

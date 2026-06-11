@@ -18,7 +18,7 @@
             <property name="javax.jdo.option.ConnectionDriverName" value="com.mysql.cj.jdbc.Driver"/>
             
             <!-- HikariCP Connection Pooling -->
-            <property name="datanucleus.connectionPool.plugin" value="HikariCP"/>
+            <property name="datanucleus.connectionPoolingType" value="HikariCP"/>
             <property name="datanucleus.connectionPool.maxPoolSize" value="10"/>
             
             <!-- DataNucleus specific properties -->

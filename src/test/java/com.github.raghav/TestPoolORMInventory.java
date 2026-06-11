@@ -15,77 +15,36 @@
  */
 package com.github.raghav;
 
-import static com.github.raghav.Timer.DBTimer.record;
-
+import com.github.raghav.repository.InventoryRepository;
 import java.util.List;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-import javax.jdo.Transaction;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class TestPoolORMInventory {
-  private static PersistenceManagerFactory pmf;
+public class TestPoolORMInventory extends AbstractDatabaseSetup {
 
   @BeforeAll
-  public static void setup() {
-    // 1. Initialize the PersistenceManagerFactory using the unit defined in persistence.xml
-    pmf = JDOHelper.getPersistenceManagerFactory("FlashSaleUnit");
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    if (pmf != null && !pmf.isClosed()) {
-      pmf.close();
-    }
+  public static void setupOrm() {
+    initOrmFactory();
   }
 
   @Test
   public void populateAndReadInventory() {
-    // 2. Obtain a PersistenceManager
-    PersistenceManager pm = pmf.getPersistenceManager();
+    InventoryRepository repository = new InventoryRepository(pmf);
 
-    try (pm) {
-      Transaction tx = pm.currentTransaction();
-      // --- CLEAN STEP ---
-      tx.begin();
-      Query<Inventory> qry = pm.newQuery(Inventory.class);
-      qry.deletePersistentAll();
-      tx.commit();
+    // --- CLEAN STEP ---
+    repository.deleteAll();
 
-      // --- INSERT OPERATION ---
-      record(
-          "ORM Insert Inventory",
-          () -> {
-            try {
-              tx.begin();
-              Inventory item = new Inventory(101, "Pixel 10 Pro (ORM)", 500);
-              pm.makePersistent(item);
-              tx.commit();
-            } finally {
-              if (tx.isActive()) {
-                tx.rollback();
-              }
-            }
-          });
+    // --- INSERT OPERATION ---
+    Inventory item = new Inventory(101, "Pixel 10 Pro (ORM)", 500);
+    repository.save(item);
 
-      // --- SELECT OPERATION ---
-      record(
-          "ORM Select From Inventory",
-          () -> {
-            Query<Inventory> q = pm.newQuery(Inventory.class);
-            List<Inventory> results = q.executeList();
+    // --- SELECT OPERATION ---
+    List<Inventory> results = repository.findAll();
 
-            System.out.println("\n--- Inventory List (DataNucleus ORM) ---");
-            for (Inventory item : results) {
-              System.out.println(item);
-            }
-
-            System.out.println("----------------------------------------\n");
-          });
+    System.out.println("\n--- Inventory List (DataNucleus ORM) ---");
+    for (Inventory result : results) {
+      System.out.println(result);
     }
+    System.out.println("----------------------------------------\n");
   }
 }

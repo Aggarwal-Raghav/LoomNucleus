@@ -15,32 +15,15 @@
  */
 package com.github.raghav;
 
-import static com.github.raghav.DBConnectionManager.getConnection;
-import static com.github.raghav.Timer.DBTimer.record;
+import static com.github.raghav.util.DBTimer.record;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class TestNoPoolInventory {
-  private static Connection conn;
-
-  @BeforeAll
-  public static void setup() throws SQLException {
-    conn = getConnection();
-  }
-
-  @AfterAll
-  public static void tearDown() throws SQLException {
-    if (conn != null && !conn.isClosed()) {
-      conn.close();
-    }
-  }
+public class TestNoPoolInventory extends AbstractDatabaseSetup {
 
   @Test
   public void populateAndReadInventory() throws SQLException {

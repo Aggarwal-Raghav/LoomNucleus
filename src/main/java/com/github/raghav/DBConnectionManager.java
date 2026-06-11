@@ -15,22 +15,23 @@
  */
 package com.github.raghav;
 
-import com.github.raghav.Timer.DBTimer;
+import com.github.raghav.util.ConfigLoader;
+import com.github.raghav.util.DBTimer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnectionManager {
-  private static final String URL = "jdbc:mysql://localhost:3307/flashSale";
-  private static final String USER = "root";
-  private static final String PASSWORD = "qwerty@123";
 
   public static Connection getConnection() {
     return DBTimer.record(
         "Raw JDBC Connection Creation",
         () -> {
           try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(
+                ConfigLoader.get("db.url"),
+                ConfigLoader.get("db.user"),
+                ConfigLoader.get("db.password"));
           } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database", e);
           }

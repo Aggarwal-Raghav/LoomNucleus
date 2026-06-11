@@ -15,26 +15,23 @@
  */
 package com.github.raghav;
 
-import com.github.raghav.Timer.DBTimer;
+import com.github.raghav.util.ConfigLoader;
+import com.github.raghav.util.DBTimer;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class HikariDBConnectionManager {
-  private static final String URL = "jdbc:mysql://localhost:3307/flashSale";
-  private static final String USER = "root";
-  private static final String PASSWORD = "qwerty@123";
-
-  // HikariDataSource is thread-safe and shouTestPoolInventoryld be a singleton
+  // HikariDataSource is thread-safe and TestPoolInventory should be a singleton
   private static final HikariDataSource dataSource;
 
   // Static block initializes the pool once when the class is first loaded
   static {
     HikariConfig config = new HikariConfig();
-    config.setJdbcUrl(URL);
-    config.setUsername(USER);
-    config.setPassword(PASSWORD);
+    config.setJdbcUrl(ConfigLoader.get("db.url"));
+    config.setUsername(ConfigLoader.get("db.user"));
+    config.setPassword(ConfigLoader.get("db.password"));
 
     // Recommended HikariCP settings for MySQL
     config.addDataSourceProperty("cachePrepStmts", "true");

@@ -15,33 +15,23 @@
  */
 package com.github.raghav;
 
-// Import the Hikari Connection Manager instead of the raw one
 import static com.github.raghav.HikariDBConnectionManager.getConnection;
-import static com.github.raghav.Timer.DBTimer.record;
+import static com.github.raghav.util.DBTimer.record;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TestPoolInventory {
-  private static Connection conn;
+public class TestPoolInventory extends AbstractDatabaseSetup {
 
-  @BeforeAll
-  public static void setup() throws SQLException {
-    // This will trigger the static block in HikariDBConnectionManager
+  @Override
+  @BeforeEach
+  public void setUpConnection() {
+    // Override to use HikariCP for this specific test
     conn = getConnection();
-  }
-
-  @AfterAll
-  public static void tearDown() throws SQLException {
-    if (conn != null && !conn.isClosed()) {
-      conn.close();
-    }
   }
 
   @Test
