@@ -45,6 +45,21 @@ public class TestPoolORMInventory extends AbstractDatabaseSetup {
     for (Inventory result : results) {
       System.out.println(result);
     }
+
+    // --- NEW: RETRIEVE SPECIFIC COLUMN & UPDATE ---
+    System.out.println("\n--- Performing Update ---");
+
+    // 1. Get specific object and read the quantity (stockCount)
+    Inventory specificItem = repository.findById(101);
+    System.out.println("Old Quantity: " + specificItem.getStockCount());
+
+    // 2. Update the value
+    repository.updateStock(101);
+
+    // 3. Verify the change
+    Inventory updatedItem = repository.findById(101);
+    System.out.println("New Quantity: " + updatedItem.getStockCount());
+
     System.out.println("----------------------------------------\n");
   }
 }

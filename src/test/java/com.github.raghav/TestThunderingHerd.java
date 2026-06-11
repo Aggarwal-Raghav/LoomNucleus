@@ -15,4 +15,52 @@
  */
 package com.github.raghav;
 
-public class TestThunderingHerd {}
+import com.github.raghav.repository.InventoryRepository;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+public class TestThunderingHerd extends AbstractDatabaseSetup {
+
+  static InventoryRepository repository;
+  private static final ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
+
+  @BeforeAll
+  public static void setupOrm() {
+    initOrmFactory();
+    populateAndReadInventory();
+  }
+
+  public static void populateAndReadInventory() {
+    repository = new InventoryRepository(pmf);
+    repository.deleteAll();
+    Inventory item = new Inventory(101, "Pixel 10 Pro (ORM)", 500);
+    repository.save(item);
+  }
+
+  @Test
+  public void testThunderingHerd() throws InterruptedException {
+    IntStream.range(0, 5000)
+        .forEach(
+            i ->
+                pool.submit(
+                    () -> {
+                      try {
+                        repository.updateStock(101);
+                        System.out.println(
+                            "STOCK COUNT For thread-" + i + "): " + repository.findById(101));
+                      } catch (Exception e) {
+                        // Ignore expected concurrency exceptions for now
+                      }
+                    }));
+
+    // Wait for all virtual threads to finish
+    pool.shutdown();
+    pool.awaitTermination(2, java.util.concurrent.TimeUnit.MINUTES);
+
+    Inventory finalItem = repository.findById(101);
+    System.out.println("FINAL STOCK COUNT (Phase 2): " + finalItem.getStockCount());
+  }
+}
