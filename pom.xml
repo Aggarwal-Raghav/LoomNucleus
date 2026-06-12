@@ -221,14 +221,6 @@ limitations under the License.
               <delimiter>^&lt;project|^&lt;configuration|^&lt;Configuration|^&lt;extensions|^&lt;component</delimiter>
             </licenseHeader>
           </pom>
-          <sql>
-            <includes>
-              <include>**/*.sql</include>
-            </includes>
-            <dbeaver>
-              <configFile>style/dbeaver.properties</configFile>
-            </dbeaver>
-          </sql>
         </configuration>
         <executions>
           <execution>
