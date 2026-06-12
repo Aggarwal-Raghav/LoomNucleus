@@ -15,7 +15,7 @@
  */
 package com.github.raghav;
 
-public class FlashSale {
+public class LoomNucleus {
   static void main() {
     System.out.println("Hello and welcome!");
   }

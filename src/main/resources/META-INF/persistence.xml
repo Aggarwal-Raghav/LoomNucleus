@@ -12,7 +12,7 @@
         
         <properties>
             <!-- JDO Standard Properties inside persistence.xml -->
-            <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3307/flashSale"/>
+            <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3307/LoomNucleus"/>
             <property name="javax.jdo.option.ConnectionUserName" value="root"/>
             <property name="javax.jdo.option.ConnectionPassword" value="qwerty@123"/>
             <property name="javax.jdo.option.ConnectionDriverName" value="com.mysql.cj.jdbc.Driver"/>

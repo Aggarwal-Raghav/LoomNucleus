@@ -21,7 +21,7 @@ The traditional way to establish a database connection is via the `DriverManager
 
 ```java
 public static Connection getConnection() throws SQLException {
-    String URL = "jdbc:mysql://localhost:3307/flashSale";
+    String URL = "jdbc:mysql://localhost:3307/LoomNucleus";
     return DriverManager.getConnection(URL, "root", "qwerty@123");
 }
 ```
@@ -73,7 +73,7 @@ public class HikariDBConnectionManager {
 
   static {
     HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mysql://localhost:3307/flashSale");
+    config.setJdbcUrl("jdbc:mysql://localhost:3307/LoomNucleus");
     config.setUsername("root");
     config.setPassword("qwerty@123");
     config.setMaximumPoolSize(10);
@@ -109,7 +109,7 @@ To use DataNucleus with JDO, you must configure a `persistence.xml` (or `jdoconf
 <persistence-unit name="FlashSaleUnit">
     <class>com.github.raghav.Inventory</class>
     <properties>
-        <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3307/flashSale"/>
+        <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3307/LoomNucleus"/>
         <!-- Integrate HikariCP directly into the ORM! -->
         <property name="datanucleus.connectionPool.plugin" value="HikariCP"/>
         <!-- Auto-create tables -->
